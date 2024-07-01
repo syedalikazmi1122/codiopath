@@ -23,7 +23,9 @@ export default function Navbar() {
   return (
     <nav className="  flex items-center justify-between bg-gray-100 p-4">
       <div className="flex items-center space-x-4">
+         <RouterLink to="/">
          <img src={logo} alt="Codiopath" className="w-12 h-12" />
+          </RouterLink>
         <div className="hidden md:flex space-x-4">
           {links
             .filter((link) => !link.alignRight)
