@@ -1,29 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
-import Navbar from './Components/Navbar/Navbar';
-import Home from './Pages/Home/Home';
-import { Route ,Routes } from "react-router-dom";
-import Adminlogin from './Pages/Login/adminlogin';
-import Categories from './Pages/Categories/category';
-import Postaresource from './Pages/Resources/Postaresource';
-import Viewresources from './Pages/Resources/viewresources';
-import Vieweachresource from './Pages/Resources/vieweachresouce';
-import Aboutus from './Pages/aboutus';
+import React, { useState, useEffect } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import Navbar from "./Components/Navbar/Navbar";
+import Home from "./Pages/Home/Home";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Adminlogin from "./Pages/Login/adminlogin";
+import Categories from "./Pages/Categories/category";
+import Postaresource from "./Pages/Resources/Postaresource";
+import Viewresources from "./Pages/Resources/viewresources";
+import Vieweachresource from "./Pages/Resources/vieweachresouce";
+import Contactus from "./Pages/Contactus/Contactus";
+import ConfirmResources from "./Pages/Resources/ConfirmResources";
+import useLoginStore from "./Zustand/Loginstore";
+
 function App() {
+  const { isAuthenticated } = useLoginStore();
+  const [loginstatus, setLoginStatus] = useState(isAuthenticated);
+
+  useEffect(() => {
+    setLoginStatus(isAuthenticated);
+  }, [isAuthenticated]);
+
   return (
-    <div className='' >
+    <div className="">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/about" element={<About />} /> */}
-        <Route path="/admin-login" element={<Adminlogin />} />
+        <Route
+          path="/admin-login"
+          element={loginstatus ? <Navigate to="/" /> : <Adminlogin />}
+        />
         <Route path="/post-resources" element={<Postaresource />} />
         <Route path="/see-resources" element={<Viewresources />} />
         <Route path="/see-each-resources" element={<Vieweachresource />} />
         <Route path="/categories" element={<Categories />} />
-        <Route path ="/about-us" element = {<Aboutus />} />
+        <Route
+          path="/confirm-resources"
+          element={
+            loginstatus ? <ConfirmResources /> : <Navigate to="/admin-login" />
+          }
+        />
+        <Route path="/contact-us" element={<Contactus />} />
       </Routes>
-    
     </div>
   );
 }

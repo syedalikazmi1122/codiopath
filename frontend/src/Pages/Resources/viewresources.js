@@ -53,14 +53,17 @@ export default function Viewresources() {
       <div className=" p-4">
         {/* the main heading */}
         <div className="flex  justify-between p-2">
-          <h1 className="text-3xl sm:text-2xl font-medium" style={{ color: "#29306B" }}>
+          <h1
+            className="text-3xl sm:text-2xl font-medium"
+            style={{ color: "#29306B" }}
+          >
             Resources
           </h1>
           <button
             className="border h-9 p-2 text-white  bg-blue-900 rounded-md hover:translate-x-0.5 hover:translate-y-1 duration-300"
             style={{ fontFamily: "" }}
           >
-            Add Resources
+            <RouterLink to="/post-resources">Add Resources</RouterLink>
           </button>
         </div>
         {/* the buttons and the search  */}
@@ -90,15 +93,15 @@ export default function Viewresources() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {resources.map((resource) => (
             <RouterLink to="/see-each-resources">
-           <div
-              className="border hover:translate-y-0.5 hover:translate-x-0.5 duration-200  rounded-md p-4"
-              style={{ backgroundColor: "#29306B" }}
-            >
-              <h1 className="text-2xl text-white font-medium">
-                {resource.title}
-              </h1>
-              <p className="text-white">{resource.description}</p>
-            </div>
+              <div
+                className="border hover:translate-y-0.5 hover:translate-x-0.5 duration-200  rounded-md p-4"
+                style={{ backgroundColor: "#29306B" }}
+              >
+                <h1 className="text-2xl text-white font-medium">
+                  {resource.title}
+                </h1>
+                <p className="text-white">{resource.description}</p>
+              </div>
             </RouterLink>
           ))}
           <div

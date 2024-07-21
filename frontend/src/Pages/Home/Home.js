@@ -1,8 +1,8 @@
 import React from "react";
-
+import { Link as RouterLink } from "react-router-dom";
 export default function Home() {
-    const imagepath ="./images/code.png"
-    const vediopath = "./images/codingvedio.mp4";
+  const imagepath = "./images/code.png";
+  const vediopath = "./images/codingvedio.mp4";
   return (
     <div className="space-y-3">
       <div
@@ -36,15 +36,16 @@ export default function Home() {
         </div>
         <div className="flex justify-center items-center">
           {/* for button */}
-          <button
-            style={{ backgroundColor: "#29306B" }}
-            className=" w-48 hover:translate-x-2 ho duration-300  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
-          >
-            Get Started
-          </button>
+          <RouterLink to="/see-resources">
+            <button
+              style={{ backgroundColor: "#29306B" }}
+              className=" w-48 hover:translate-x-2 ho duration-300  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Get Started
+            </button>
+          </RouterLink>
         </div>
       </div>
     </div>
   );
 }
- 

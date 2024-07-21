@@ -1,15 +1,28 @@
-import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
+import useLoginStore from "../../Zustand/Loginstore";
 import css from "./nav.module.css";
 import NavbarEntity from "./NavbarEntity"; // Assuming NavbarEntity is in the same directory
 
 export default function Navbar() {
+  const { isAuthenticated, logout } = useLoginStore(); // Get the isAuthenticated state and logout function from the store
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {}, [isAuthenticated]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+   const handleLogout = () => {
+     // Clear the authentication cookie
+     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"; // Adjust the cookie name and path if necessary
+     logout();
+     setIsMenuOpen(false);
+   };
+
 
   const logo = "./icons/codiopathlogo.png";
   const links = [
@@ -17,30 +30,29 @@ export default function Navbar() {
     { name: "Post Resources", link: "/post-resources" },
     { name: "Categories", link: "/categories" },
     { name: "About us", link: "/about-us" },
-    { name: "Admin login", link: "/admin-login", alignRight: true },
   ];
 
   return (
-    <nav className="  flex items-center justify-between bg-gray-100 p-4">
+    <nav className="flex items-center justify-between bg-gray-100 p-4">
       <div className="flex items-center space-x-4">
-         <RouterLink to="/">
-         <img src={logo} alt="Codiopath" className="w-12 h-12" />
-          </RouterLink>
+        <RouterLink to="/">
+          <img src={logo} alt="Codiopath" className="w-12 h-12" />
+        </RouterLink>
         <div className="hidden md:flex space-x-4">
-          {links
-            .filter((link) => !link.alignRight)
-            .map((link) => (
-              <NavbarEntity key={link.name} name={link.name} link={link.link} />
-            ))}
+          {links.map((link) => (
+            <NavbarEntity key={link.name} name={link.name} link={link.link} />
+          ))}
         </div>
       </div>
 
       <div className="hidden md:flex space-x-4">
-        {links
-          .filter((link) => link.alignRight)
-          .map((link) => (
-            <NavbarEntity key={link.name} name={link.name} link={link.link} />
-          ))}
+        {isAuthenticated ? (
+          <button onClick={handleLogout} className="btn-logout">
+            Logout
+          </button>
+        ) : (
+          <NavbarEntity name="Admin login" link="/admin-login" />
+        )}
       </div>
 
       <button
@@ -52,7 +64,7 @@ export default function Navbar() {
       </button>
 
       <div
-        className={`fixed inset-0 bg-gray-100  bg-opacity-75 z-20 transform ${
+        className={`fixed inset-0 bg-gray-100 bg-opacity-75 z-20 transform ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300 ease-in-out md:hidden`}
       >
@@ -70,6 +82,17 @@ export default function Navbar() {
               onClick={toggleMenu} // Close the menu on link click
             />
           ))}
+          {isAuthenticated ? (
+            <button onClick={handleLogout} className="btn-logout">
+              Logout
+            </button>
+          ) : (
+            <NavbarEntity
+              name="Admin login"
+              link="/admin-login"
+              onClick={toggleMenu}
+            />
+          )}
         </div>
       </div>
     </nav>
