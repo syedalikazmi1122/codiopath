@@ -3,16 +3,14 @@ import jwt from "jsonwebtoken";
 
 const Login = async (req, res) => {
   try {
+    // console.log(req.body);
     const { email, password } = req.body;
-
     if (!email || !password) {
       return res
         .status(400)
         .json({ message: "Email and password are required!" });
     }
-
     const admin = await Admin.findOne({ email });
-
     if (admin && !admin.pending) {
       if (admin.password === password) {
         const token = jwt.sign(

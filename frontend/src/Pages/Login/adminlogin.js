@@ -4,11 +4,36 @@ import { useNavigate } from "react-router-dom";
 import useAdminStore from "../../Zustand/Loginstore";
 
 export default function Adminlogin() {
+  // Styles for the container
+  const containerStyle = {
+    position: "relative",
+    padding: "4rem",
+    width: "50%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#29306B",
+    overflow: "hidden", // Ensure skewed element doesn't overflow the container
+    clipPath: "polygon(0 0, 100% 0, 95% 100%, 0% 100%)", // Clip the right side inward
+  };
+
+  // Styles for the image
+  const imageStyle = {
+    display: "none", // Default display is hidden
+    "@media (min-width: 640px)": {
+      display: "block", // Becomes visible on larger screens
+    },
+    position: "relative",
+    zIndex: 1, // Ensure the image is above the skewed part
+  };
+
+  // State for form data
   const [formdata, setFormData] = useState({
     email: "",
     password: "",
   });
 
+  // Zustand store functions
   const { login, initialize, checkTokenExpiry, isAuthenticated } =
     useAdminStore((state) => ({
       login: state.login,
@@ -19,6 +44,7 @@ export default function Adminlogin() {
 
   const navigate = useNavigate();
 
+  // Handle form input changes
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -27,13 +53,15 @@ export default function Adminlogin() {
     }));
   };
 
+  // Handle form submission
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form data:", formdata);
     try {
-      const response = await sendRequest("/login", "post", formdata);
+      const response = await sendRequest("post","/login" , formdata);
       console.log("Response:", response);
 
-      if (response?.status) {
+      if (response.status===true) {
         login(formdata.email, response.token);
         alert("Login Success");
         navigate("/confirm-resources");
@@ -45,10 +73,12 @@ export default function Adminlogin() {
     }
   };
 
+  // Initialize Zustand store
   useEffect(() => {
     initialize();
   }, [initialize]);
 
+  // Check for token expiry
   useEffect(() => {
     if (checkTokenExpiry()) {
       alert("Session expired. Please log in again.");
@@ -56,69 +86,65 @@ export default function Adminlogin() {
     }
   }, [checkTokenExpiry, navigate]);
 
+  // Redirect if authenticated
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/confirm-resources");
     }
   }, [isAuthenticated, navigate]);
+
   return (
-    <div className="flex h-screen justify-center pt-10">
-      <div className="border h-80 sm:w-1/3 sm:h-96 rounded-lg block sm:flex">
-        <div
-          className="p-4 sm:block flex justify-center items-center"
-          style={{ backgroundColor: "#29306B" }}
-        >
-          <img
-            src="./icons/codiopathlogowhite.png"
-            className="hidden sm:block h-40 sm:h-48"
-            alt="Logo"
-          />
-          <p
-            style={{ fontFamily: "cursive" }}
-            className="text-white text-center font-medium text-xl"
-          >
-            {"<Welcome back/>"}
-          </p>
+    <div className="grid sm:flex h-screen w-full">
+      <div
+        className="border w-full h-screen rounded-lg block sm:flex"
+        // style={containerStyle}
+      >
+        {/* Dark blue skewed div */}
+        <div className="hidden  sm:flex justify-center" style={containerStyle}>
+          <img src="./images/discussinglogin.png" alt="Logo" />
         </div>
-        <div className="p-4">
-          <h1
-            className="text-3xl font-medium"
-            style={{ color: "#29306B", fontFamily: "cursive" }}
-          >
-            Admin Login
-          </h1>
+
+        {/* Form section */}
+        <div className=" flex justify-center sm:w-1/2 pt-20">
           <form
             onSubmit={handleFormSubmit}
-            className="space-y-5 p-0 sm:p-5 mt-6"
+            className="space-y-5  p-0 sm:p-5 mt-6"
           >
-            <div className="text-left w-40">
-              <label style={{ color: "#29306B" }} className="text-sm">
-                Email
-              </label>
+            <h1
+              className="text-4xl font-medium"
+              style={{ color: "#29306B", fontFamily: "cursive" }}
+            >
+              Admin Login
+            </h1>
+            {/* Email input */}
+            <div className="text-left w-64">
               <input
                 type="email"
                 name="email"
                 onChange={handleFormChange}
-                placeholder="Enter here"
-                className="bg-gray-100 w-40 h-9"
+                placeholder="Enter your email"
+                className="  w-64  border-b-2 border-none  border-black focus:outline-none "
               />
+              <div className="border" style={{ borderColor: "#29306B" }}></div>
             </div>
-            <div className="text-left w-28 sm:w-40">
-              <label className="text-sm" style={{ color: "#29306B" }}>
-                Password
-              </label>
+
+            {/* Password input */}
+            <div className="text-left w-64">
               <input
                 type="password"
                 name="password"
                 onChange={handleFormChange}
-                className="w-40 bg-gray-100 h-9"
-                placeholder="Enter here"
+                className=" w-64  border-b-2 border-none  border-black focus:outline-none "
+                placeholder="Enter your password here"
               />
+              <div className="border" style={{ borderColor: "#29306B" }}></div>
             </div>
+
+            {/* Submit button */}
             <div className="flex justify-center">
               <button
                 type="submit"
-                className="hover:translate-x-2 duration-150 p-2 rounded-sm text-white"
+                className="hover:translate-x-2 hover:-translate-y-1 w-20  duration-150 p-2 rounded text-white"
                 style={{ backgroundColor: "#29306B" }}
               >
                 Login

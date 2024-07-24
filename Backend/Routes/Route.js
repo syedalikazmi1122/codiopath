@@ -6,6 +6,9 @@ import {
   PostResource,
   ApproveResource,
   GetResources,
+  UpdateResource,
+PostReview,  
+ GetSpecificResourcesbyid,
   GetResourcesCategory,
   SearchResourcesbyTitle,
   SearchResourcesbyCategory,
@@ -44,7 +47,11 @@ router.post("/logout", (req, res) => {
 router.post("/resources", PostResource);
 router.patch("/resources/:id", ApproveResource);
 router.get("/resources", GetResources);
+router.put("/resources/:id", PostReview);
+// get single course by id 
+router.get("/resources/:id", GetSpecificResourcesbyid);
 router.get("/allcategories", GetResourcesCategory);
-router.get("/resources/search/:title", SearchResourcesbyTitle);
-router.get("/resources/search/:category", SearchResourcesbyCategory);
+router.get("/resources/search/title/:title", SearchResourcesbyTitle);
+router.get("/resources/search/category/:category", SearchResourcesbyCategory);
+
 export default router;

@@ -32,7 +32,7 @@ function App() {
         />
         <Route path="/post-resources" element={<Postaresource />} />
         <Route path="/see-resources" element={<Viewresources />} />
-        <Route path="/see-each-resources" element={<Vieweachresource />} />
+        <Route path="/see-each-resources/:id" element={<Vieweachresource />} />
         <Route path="/categories" element={<Categories />} />
         <Route
           path="/confirm-resources"

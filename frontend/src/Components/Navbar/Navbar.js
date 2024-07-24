@@ -24,7 +24,7 @@ export default function Navbar() {
    };
 
 
-  const logo = "./icons/codiopathlogo.png";
+  const logo = "/icons/codiopathlogo.png";
   const links = [
     { name: "See Resources", link: "/see-resources" },
     { name: "Post Resources", link: "/post-resources" },
