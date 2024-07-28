@@ -106,7 +106,13 @@ export default function ViewResources() {
   }
 
   return (
-    <div className="p-4 h-screen">
+    <div
+      className="p-4 h-screen overflow-y-auto"
+      style={{
+        scrollbarWidth: "none" /* For Firefox */,
+        msOverflowStyle: "none" /* For Internet Explorer and Edge */,
+      }}
+    >
       {popupMessage && (
         <Popup message={popupMessage} type={popupType} onClose={closePopup} />
       )}
@@ -118,7 +124,12 @@ export default function ViewResources() {
           Resources
         </h1>
         <button className="border p-2 text-white rounded-full bg-blue-900 hover:translate-x-0.5 hover:translate-y-1 duration-300 gradient-button">
-          <RouterLink to="/post-resources" className="text-sm sm:text-base md:text-base lg:text-lg">Add Resources</RouterLink>
+          <RouterLink
+            to="/post-resources"
+            className="text-sm sm:text-base md:text-base lg:text-lg"
+          >
+            Add Resources
+          </RouterLink>
         </button>
       </div>
 
