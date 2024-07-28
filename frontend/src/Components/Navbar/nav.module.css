@@ -8,6 +8,7 @@
 
 .hoverEffect:hover {
   color: #0000ff; /* Change to desired hover color */
+ transition: all 0.3s ease; 
 }
 /*  for responsive designs */
 

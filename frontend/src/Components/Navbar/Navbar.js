@@ -16,28 +16,27 @@ export default function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-   const handleLogout = () => {
-     // Clear the authentication cookie
-     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"; // Adjust the cookie name and path if necessary
-     logout();
-     setIsMenuOpen(false);
-   };
-
+  const handleLogout = () => {
+    // Clear the authentication cookie
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/"; // Adjust the cookie name and path if necessary
+    logout();
+    setIsMenuOpen(false);
+  };
 
   const logo = "/icons/codiopathlogo.png";
   const links = [
     { name: "See Resources", link: "/see-resources" },
     { name: "Post Resources", link: "/post-resources" },
     { name: "Categories", link: "/categories" },
-    { name: "About us", link: "/about-us" },
+    { name: "Contact us", link: "/contact-us" },
   ];
 
   return (
-    <nav className="flex items-center justify-between bg-gray-100 p-4">
+    <nav className="flex items-center  justify-between  bg-gray-100 p-4">
+      <RouterLink to="/">
+        <img src={logo} alt="Codiopath" className="w-12 h-12" />
+      </RouterLink>
       <div className="flex items-center space-x-4">
-        <RouterLink to="/">
-          <img src={logo} alt="Codiopath" className="w-12 h-12" />
-        </RouterLink>
         <div className="hidden md:flex space-x-4">
           {links.map((link) => (
             <NavbarEntity key={link.name} name={link.name} link={link.link} />
@@ -47,11 +46,22 @@ export default function Navbar() {
 
       <div className="hidden md:flex space-x-4">
         {isAuthenticated ? (
-          <button onClick={handleLogout} className="btn-logout">
+          <button
+            onClick={handleLogout}
+            className="btn-logout border p-2   rounded-full text-white "
+            style={{ backgroundColor: "#29306B" }}
+          >
             Logout
           </button>
         ) : (
-          <NavbarEntity name="Admin login" link="/admin-login" />
+          <button
+            className="btn-logout border p-2 mt-2  rounded-full hover:translate-y-1 hover:translate-x-3 duration-100 text-white "
+            style={{ backgroundColor: "#29306B" }}
+          >
+            <RouterLink className="text-sm" to="/admin-login">
+              Admin Login
+            </RouterLink>
+          </button>
         )}
       </div>
 
@@ -83,7 +93,11 @@ export default function Navbar() {
             />
           ))}
           {isAuthenticated ? (
-            <button onClick={handleLogout} className="btn-logout">
+            <button
+              onClick={handleLogout}
+              className="btn-logout border p-2   rounded-full text-white "
+              style={{ backgroundColor: "#29306B" }}
+            >
               Logout
             </button>
           ) : (

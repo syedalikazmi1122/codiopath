@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import sendRequest from "../../Apicalls/SendData";
+import Popup from "./../../Components/DisplayComponents/Popup"; // Import the Popup component
+import "./../../App.css";
 
 export default function Vieweachresource() {
   const imageURL = "/images/personworking.jpg";
@@ -11,6 +13,8 @@ export default function Vieweachresource() {
     rating: 0,
     reviewerEmail: "",
   });
+  const [popupMessage, setPopupMessage] = useState(""); // State for popup message
+  const [popupType, setPopupType] = useState(""); // State for popup type (success/error)
   const { id } = useParams();
 
   useEffect(() => {
@@ -33,7 +37,6 @@ export default function Vieweachresource() {
       ...prevState,
       [name]: value,
     }));
-    console.log("Updated Review: ", review);
   };
 
   const handleRatingChange = (value) => {
@@ -41,23 +44,45 @@ export default function Vieweachresource() {
       ...prevState,
       rating: value,
     }));
-    console.log("Updated Rating: ", value);
   };
 
   const submitReview = async () => {
     try {
-      const response = await sendRequest("PUT", `/resources/${id}`, review);
+      console.log("Submitting review:", review);
+      const response = await sendRequest(
+        "PUT",
+        `/postreviewresources/${id}`,
+        review
+      );
       if (response.message === "Review added successfully") {
-        alert("Review posted");
+        setPopupMessage("Review posted successfully!");
+        setPopupType("success");
+
+        // Automatically close the popup after 1 second
+        setTimeout(closePopup, 1000);
+
         // Refetch the reviews after posting to ensure the latest data
         const updatedResponse = await sendRequest("GET", `/resources/${id}`);
         setReviews(updatedResponse.Reviews || []);
         setReview({ reviewText: "", rating: 0, reviewerEmail: "" }); // Reset review form
+      } else {
+        setPopupMessage("Failed to post review.");
+        setPopupType("error");
+        setTimeout(closePopup, 1000); // Automatically close the popup after 1 second
       }
-      return response;
     } catch (error) {
-      console.error("Failed to submit review:", error);
+      setPopupMessage("Failed to submit review.");
+      setPopupType("error");
+      setTimeout(closePopup, 1000); // Automatically close the popup after 1 second
+      console.error("Failed to submit review:", error.message);
+      console.log("Error response data:", error.response?.data);
     }
+  };
+
+  // Close the popup
+  const closePopup = () => {
+    setPopupMessage(""); // Clear the popup message
+    setPopupType(""); // Clear the popup type
   };
 
   const SettingStarRating = ({ rating, onRatingChange }) => {
@@ -164,8 +189,8 @@ export default function Vieweachresource() {
           className="sm:block hidden w-1/2 h-96 object-cover"
         />
       </div>
-      <div className="sm:flex w-full mt-4">
-        <div className="grid h-64 sm:w-1/2 justify-center overflow-y-auto">
+      <div className=" w-full mt-4">
+        <div className="grid h-64  justify-center overflow-y-auto">
           <h2
             className="text-xl text-center sm:text-2xl font-medium"
             style={{ color: "#BE5D0E" }}
@@ -186,7 +211,7 @@ export default function Vieweachresource() {
           ))}
         </div>
         <div className="border mt-3"></div>
-        <div className="grid w-1/2 justify-center">
+        <div className="grid justify-center">
           <h2
             className="text-xl sm:text-2xl font-medium"
             style={{ color: "#BE5D0E" }}
@@ -214,7 +239,7 @@ export default function Vieweachresource() {
             onRatingChange={handleRatingChange}
           />
           <button
-            className="bg-blue-500 ml-5 hover:bg-blue-700 text-white font-bold h-9 w-20 py-1 px-4 rounded"
+            className=" ml-14 hover:bg-blue-700 text-white font-bold h-9 w-20 py-1 px-4 rounded gradient-button"
             type="submit"
             onClick={submitReview} // Added onClick to handle review submission
           >
@@ -222,6 +247,9 @@ export default function Vieweachresource() {
           </button>
         </div>
       </div>
+
+      {/* Popup Component for messages */}
+      {popupMessage && <Popup message={popupMessage} type={popupType} />}
     </div>
   );
 }

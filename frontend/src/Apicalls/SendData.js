@@ -2,28 +2,40 @@ import axios from "axios";
 
 async function sendRequest(method, url, body = null) {
   try {
-    // Ensure correct HTTP method and URL are passed
     const response = await axios({
-      method: method.toLowerCase(), // axios methods are case-sensitive
-      url: `http://localhost:5000${url}`, // Correct base URL
+      method: method.toLowerCase(),
+      url: `https://codiopathbackend.vercel.app${url}`,
       headers: {
         "Content-Type": "application/json",
       },
-      data: body, // Correctly pass the body
-      withCredentials: true, // Ensures cookies are sent
+      data: body,
+      withCredentials: false,
     });
 
-    // Check if the status is not a success
-    if (response.status !== 200 && response.status!== 201) {
+    if (response.status < 200 || response.status >= 300) {
+      // Handle non-success status codes
       throw new Error(response.data.message || "Request failed");
     }
 
-    // Return the data from the response
     return response.data;
   } catch (error) {
-    // Log the error for debugging
-    console.log("The error is:", error.response?.data);
-    throw new Error(error.response?.data?.message || error.message);
+    // Log the full error object for better debugging
+    console.error("Request error:", error);
+
+    // Handle different error scenarios
+    if (error.response) {
+      // Server responded with a status other than 2xx
+      console.error("Error response data:", error.response.data);
+      throw new Error(error.response.data.message || "Server error");
+    } else if (error.request) {
+      // No response received
+      console.error("No response received:", error.request);
+      throw new Error("No response received from server");
+    } else {
+      // Error setting up the request
+      console.error("Request setup error:", error.message);
+      throw new Error(error.message);
+    }
   }
 }
 

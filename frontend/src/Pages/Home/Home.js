@@ -1,51 +1,66 @@
 import React from "react";
 import { Link as RouterLink } from "react-router-dom";
 export default function Home() {
-  const imagepath = "./images/code.png";
+  const imagepath = "./images/code11.png";
+  const imagepath2 = "./images/workinghomepage.png";
+  const imagepath3 = "./images/boylying.png";
   const vediopath = "./images/codingvedio.mp4";
   return (
-    <div className="space-y-3">
+    <div className="bg-white p-6 space-y-4 sm:p-5">
+      {/* first box */}
       <div
-        className="grid sm:flex p-4 w-full justify-around"
-        style={{ backgroundColor: "#29306B" }}
+        className="sm:h-64 p-3 flex-row-reverse sm:flex items-center justify-around border shadow-lg rounded-md"
+        style={{ backgroundColor: "GhostWhite" }}
       >
-        <div className="  items-center flex">
-          {/*for text  */}
-          <span>
-            <h1 className="text-white w-80  text-left text-lg sm:text-4xl ">
-              Ultimate Computer learning Resources <br></br> for you!
-            </h1>
-            <p className="text-white text-xs sm:text-sm">
-              from coders for coders
-            </p>
-          </span>
-        </div>
-        <div className="hover:-translate-x-2 hover:-translate-y-2 duration-500">
-          {/* for image  */}
-          <img src={imagepath} alt="code" className="w-56 sm:w-96" />
-        </div>
+        <span className="space-y-5">
+          <p
+            className="text-xl sm:text-2xl font-semibold"
+            style={{ color: "#29306B" }}
+          >
+            A computer Science Student ? <br></br> What to learn some thing ?
+          </p>
+
+          <p className="text-lg font-medium" style={{ color: "#29306B" }}>
+            .......Unable to find Resources
+          </p>
+        </span>
+        <img src={imagepath} alt="code" className="h-56" />
       </div>
-      <div className=" sm:flex w-full  justify-around">
-        <div>
-          {/* <img src={imagepath} alt="code" className="w-96" /> */}
-          {/* for vedio  */}
-          <video width="320" height="240" controls autoPlay muted loop>
-            <source src={vediopath} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-        <div className="flex justify-center items-center">
-          {/* for button */}
-          <RouterLink to="/see-resources">
-            <button
-              style={{ backgroundColor: "#29306B" }}
-              className=" w-48 hover:translate-x-2 ho duration-300  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg"
-            >
-              Get Started
-            </button>
-          </RouterLink>
-        </div>
+
+      {/* second box */}
+      <div
+        className="sm:h-64 p-3  sm:flex items-center justify-around border shadow-lg rounded-md"
+        style={{ backgroundColor: "GhostWhite" }}
+      >
+        <span className="space-y-5 justify-center grid">
+          <p
+            className="text-xl sm:text-2xl font-semibold"
+            style={{ color: "#29306B" }}
+          >
+            Want to learn some thing new ?
+          </p>
+
+          <p className="text-lg font-medium" style={{ color: "#29306B" }}>
+            .......From development to Artifical Intelligence
+          </p>
+          <button className="p-2 w-28 ml-10 text-white border rounded-full hover:translate-x-2 hover:translate-y-2 duration-200 gradient-button">
+            <RouterLink to="/see-resources">Get started</RouterLink>
+            
+          </button>
+        </span>
+        <img src={imagepath3} alt="code" className="" />
       </div>
+
+      {/* third box */}
+      {/* <div
+        className="sm:h-64 p-3 flex-row-reverse sm:flex items-center justify-around border shadow-lg rounded-md"
+        style={{ backgroundColor: "GhostWhite" }}
+      >
+        <button className="p-2 text-white border rounded-full hover:translate-x-2 hover:translate-y-2 duration-200 gradient-button">
+          Get started
+        </button>
+        <img src={imagepath3} alt="code" className="h-72" />
+      </div> */}
     </div>
   );
 }

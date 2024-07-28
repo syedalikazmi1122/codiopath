@@ -1,5 +1,5 @@
 export default function Aboutus() {
-  const headerfirstimage = "./images/booksandlaptop.jpg";
+  const headerfirstimage = "./images/contactuswomen.png";
   return (
     <>
       <div className="flex w-full p-5 sm:h-screen justify-center items-center">
@@ -12,7 +12,7 @@ export default function Aboutus() {
             />
           </div>
           <div className="grid p-4 ">
-            <h1 className="text-2xl " style={{ color: "#29306B" }}>
+            <h1 className="text-2xl  ml-5 " style={{ color: "#29306B" }}>
               Contact us
             </h1>
             <form
@@ -22,14 +22,14 @@ export default function Aboutus() {
               className="grid"
             >
               <input
-              name="name"
+                name="name"
                 placeholder="Enter your name"
                 className="border p-2 m-2 w-52 "
               />
               <input
                 placeholder="Enter your email"
                 className="border p-2 m-2 w-52 "
-               name="email"
+                name="email"
               />
               <textarea
                 placeholder="Enter your message"
@@ -37,7 +37,7 @@ export default function Aboutus() {
                 name="message"
               />
               <button
-                className="border h-9 p-2 text-white  bg-blue-900 rounded-md hover:translate-x-0.5 hover:translate-y-1 duration-300"
+                className="border w-20 ml-10 h-9  p-2 text-white  gradient-button rounded-md hover:translate-x-0.5 hover:translate-y-1 duration-300"
                 style={{ fontFamily: "" }}
                 type="submit"
               >

@@ -1,454 +1,78 @@
-import react from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import sendRequest from "../../Apicalls/SendData";
+import axios from "axios";
 
-export default function category() {
-  const programinglanguages = [
-    "C++",
-    "Python",
-    "C",
-    "Java",
-    "Java script",
-    "Ruby",
-    "Rust",
-    "Go",
-    "Kotlin",
-    "Swift",
-    "Dart",
-    "PHP",
-    "R",
-    "Perl",
-    "Scala",
-    "Haskell",
-    "Lua",
-    "TypeScript",
-    "Shell",
-    "PowerShell",
-    "Assembly",
-    "Objective-C",
-    "Visual Basic",
-    "SQL",
-    "Groovy",
-    "HTML",
-    "CSS",
-    "R",
-    "Matlab",
-    "Julia",
-    "COBOL",
-    "Fortran",
-    "Ada",
-    "Lisp",
-    "Prolog",
-    "Scheme",
-    "Smalltalk",
-    "Erlang",
-    "F#",
-    "Clojure",
-    "Elixir",
-    "Racket",
-    "Kotlin",
-    "Dart",
-    "Swift",
-    "Go",
-    "Rust",
-    "Scala",
-    "Haskell",
-    "Lua",
-    "TypeScript",
-    "Shell",
-    "PowerShell",
-    "Assembly",
-    "Objective-C",
-    "Visual Basic",
-    "SQL",
-    "Groovy",
-    "HTML",
-    "CSS",
-    "R",
-    "Matlab",
-    "Julia",
-    "COBOL",
-    "Fortran",
-    "Ada",
-    "Lisp",
-    "Prolog",
-    "Scheme",
-    "Smalltalk",
-    "Erlang",
-    "F#",
-    "Clojure",
-    "Elixir",
-    "Racket",
-    "Kotlin",
-    "Dart",
-    "Swift",
-    "Go",
-    "Rust",
-    "Scala",
-    "Haskell",
-    "Lua",
-    "TypeScript",
-    "Shell",
-    "PowerShell",
-    "Assembly",
-    "Objective-C",
-    "Visual Basic",
-    "SQL",
-    "Groovy",
-    "HTML",
-    "CSS",
-    "R",
-    "Matlab",
-    "Julia",
-    "COBOL",
-    "Fortran",
-    "Ada",
-    "Lisp",
-    "Prolog",
-    "Scheme",
-    "Smalltalk",
-    "Erlang",
-    "F#",
-    "Clojure",
-    "Elixir",
-    "Racket",
-    "Kotlin",
-    "Dart",
-    "Swift",
-    "Go",
-    "Rust",
-    "Scala",
-    "Haskell",
-    "Lua",
-    "TypeScript",
-    "Shell",
-    "PowerShell",
-    "Assembly",
-    "Objective-C",
-    "Visual Basic",
-    "SQL",
-    "Groovy",
-    "HTML",
-    "CSS",
-    "R",
-    "Matlab",
-    "Julia",
-    "COBOL",
-    "Fortran",
-    "Ada",
-    "Lisp",
-    "Prolog",
-    "Scheme",
-    "Smalltalk",
-    "Erlang",
-    "F#",
-    "Clojure",
-    "Elixir",
-    "Racket",
-    "Kotlin",
-  ];
-  const Frameworks = [
-    "React.js",
-    "Node.js",
-    "Angular",
-    "Vue.js",
-    "Ember.js",
-    "Backbone.js",
-    "Meteor.js",
-    "Express.js",
-    "Django",
-    "Flask",
-    "Spring",
-    "Laravel",
-    "Ruby on Rails",
-    "ASP.NET",
-    "ASP.NET Core",
-    "CakePHP",
-    "CodeIgniter",
-    "Zend",
-    "Symfony",
-    "Struts",
-    "Hibernate",
-    "JPA",
-    "JSF",
-    "Seam",
-    "Wicket",
-    "Tapestry",
-    "Grails",
-    "Play",
-    "Vaadin",
-    "GWT",
-    "Struts",
-    "Hibernate",
-    "JPA",
-    "JSF",
-    "Seam",
-    "Wicket",
-    "Tapestry",
-    "Grails",
-    "Play",
-    "Vaadin",
-    "GWT",
-    "Struts",
-    "Hibernate",
-    "JPA",
-    "JSF",
-    "Seam",
-    "Wicket",
-    "Tapestry",
-    "Grails",
-    "Play",
-    "Vaadin",
-    "GWT",
-    "Struts",
-    "Hibernate",
-    "JPA",
-    "JSF",
-    "Seam",
-    "Wicket",
-    "Tapestry",
-    "Grails",
-    "Play",
-    "Vaadin",
-    "GWT",
-    "Struts",
-    "Hibernate",
-    "JPA",
-    "JSF",
-    "Seam",
-    "Wicket",
-    "Tapestry",
-    "Grails",
-    "Play",
-    "Vaadin",
-    "GWT",
-    "Struts",
-    "Hibernate",
-    "JPA",
-    "JSF",
-    "Seam",
-    "Wicket",
-    "Tapestry",
-    "Grails",
-    "Play",
-    "Vaadin",
-    "GWT",
-    "Struts",
-    "Hibernate",
-    "JPA",
-    "JSF",
-    "Seam",
-    "Wicket",
-    "Tapestry",
-    "Grails",
-    "Play",
-    "Vaadin",
-    "GWT",
-    "Struts",
-    "Hibernate",
-    "JPA",
-    "JSF",
-    "Seam",
-    "Wicket",
-    "Tapestry",
-    "Grails",
-    "Play",
-    "Vaadin",
-    "GWT",
-    "Struts",
-    "Hibernate",
-    "JPA",
-    "JSF",
-    "Seam",
-    "Wicket",
-    "Tapestry",
-    "Grails",
-    "Play",
-    "Vaadin",
-    "GWT",
-    "Struts",
-    "Hibernate",
-    "JPA",
-    "JSF",
-    "Seam",
-    "Wicket",
-    "Tapestry",
-    "Grails",
-    "Play",
-    "Vaadin",
-    "GWT",
-  ];
-  const WhatsAppCommunities = [
-    {
-        name:"Computing",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-    },
-{
-    name:"Programming",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Web Development",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Mobile Development",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"AI/ML",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Data Science",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Cyber Security",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"DevOps",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Cloud Computing",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Blockchain",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"IoT",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"AR/VR",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Quantum Computing",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Robotics",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Tech News",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Tech Jobs",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Tech Internships",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Tech Startups",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Tech Events",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-{
-    name:"Tech Blogs",Link:"https://chat.whatsapp.com/invite/7J9Q5Z6Q6Zw4Z6Zw4Z6Zw4"
-},
-]
+export default function Category() {
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // State to track loading
+
+  useEffect(() => {
+    // Fetch categories from the API
+    const fetchCategories = async () => {
+      try {
+        setIsLoading(true); // Set loading to true before fetching data
+        const response = await sendRequest("GET", "/allcategories"); // Replace with your API URL
+        setCategories(response);
+        setIsLoading(false); // Set loading to false after data is fetched
+      } catch (error) {
+        setIsLoading(false); // Set loading to false if there's an error
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
-    <>
-      <div>
-        <h1
-          className="text-2xl p-5 text-  font-medium"
-          style={{ color: "#29306B" }}
-        >
-          Categories
-        </h1>
-        <div>
-          {/* each div will have a main category heading and its sub types */}
-          <div className="border" style={{}}>
-            <h1
-              className=" text-xl p-2"
-              style={{ color: "#29306B", fontFamily: "cursive" }}
-            >
-              Programming Languages
-            </h1>
+    <div className="p-5">
+      <h1 className="text-3xl font-semibold mb-6" style={{ color: "#29306B" }}>
+        Categories
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {isLoading ? (
+          <SkeletonLoader />
+        ) : (
+          categories.map((category) => (
             <div
-              className="flex space-x-6  overflow-x-auto "
-              style={{ scrollbarWidth: "1px" }}
+              key={category.id} // Ensure each category has a unique identifier
+              className="bg-white border rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out transform hover:scale-105"
+              style={{ borderColor: "#D1650E" }}
             >
-              {/*  */}
-              {programinglanguages.map((language) => (
-                <h1
-                  className=" text-base"
-                  style={{ color: "#D1650E", fontFamily: "Poppins" }}
-                >
-                  {language}
-                </h1>
-              ))}
-            </div>
-          </div>
-          {/* ... */}
-          <div className="border" style={{}}>
-            <h1
-              className=" text-xl p-2"
-              style={{ color: "#29306B", fontFamily: "cursive" }}
-            >
-              Frameworks
-            </h1>
-            <div
-              className="flex  relative space-x-6   overflow-x-auto px-4 "
-              style={{ scrollbarWidth: "0px" }}
-            >
-              {/*  */}
-              {Frameworks.map((language) => (
-                <button>
-                  <h1
-                    className=" text-base"
-                    style={{ color: "#D1650E", fontFamily: "Poppins" }}
+              <RouterLink to={`/category/course/${category}`}>
+                <div className="p-4">
+                  <h2
+                    className="text-xl font-semibold"
+                    style={{ color: "#29306B" }}
                   >
-                    {language}
-                  </h1>
-                </button>
-              ))}
+                    {category}
+                  </h2>
+                </div>
+              </RouterLink>
             </div>
-          </div>
-          {/* ....... */}
-          <div className="border" style={{}}>
-            <h1
-              className=" text-xl p-2"
-              style={{ color: "#29306B", fontFamily: "cursive" }}
-            >
-              WhatsApp Communities
-            </h1>
-            <div
-              className="flex space-x-6  overflow-x-auto "
-              style={{ scrollbarWidth: "1px" }}
-            >
-              {/*  */}
-              {WhatsAppCommunities.map((community) => (
-                <a href={community.Link} target="_blank">
-                  <h1
-                    className=" text-base"
-                    style={{ color: "#D1650E", fontFamily: "Poppins" }}
-                  >
-                    {community.name}
-                  </h1>
-                </a>
-              ))}
-            </div>
-            </div>
-        {/* ....... */}
-    <div className="border" style={{}}>
-        <h1
-            className=" text-xl p-2"
-            style={{ color: "#29306B", fontFamily: "cursive" }}
-        >
-            Artificail Intelligence
-        </h1>
-        <div
-            className="flex space-x-6  overflow-x-auto "
-            style={{ scrollbarWidth: "1px" }}
-        >
-            {/*  */}
-            {WhatsAppCommunities.map((community) => (
-                <a href={community.Link} target="_blank">
-                    <h1
-                        className=" text-base"
-                        style={{ color: "#D1650E", fontFamily: "Poppins" }}
-                    >
-                        {community.name}
-                    </h1>
-                </a>
-            ))}
-            </div>
-            </div>
-        </div>
+          ))
+        )}
       </div>
-    </>
+    </div>
+  );
+}
+
+// Skeleton Loader Component
+function SkeletonLoader() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {Array(8)
+        .fill("")
+        .map((_, index) => (
+          <div
+            key={index}
+            className="animate-pulse flex flex-col space-y-4 p-4 border rounded-lg"
+            style={{ backgroundColor: "GhostWhite" }}
+          >
+            <div className="h-6 bg-gray-300 rounded w-3/4 mx-auto"></div>
+            <div className="h-4 bg-gray-300 rounded w-2/4 mx-auto"></div>
+          </div>
+        ))}
+    </div>
   );
 }

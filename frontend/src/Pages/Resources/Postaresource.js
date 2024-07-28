@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import sendRequest from "../../Apicalls/SendData";
+import Popup from "../../Components/DisplayComponents/Popup"; // Import the Popup component
 
 export default function Postaresource() {
   const [resource, setResource] = useState({
@@ -11,35 +12,47 @@ export default function Postaresource() {
     Posteremail: "",
     ResourceDescription: "",
   });
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setResource((prevState) => ({
-    ...prevState,
-    [name]: value,
-  }));
-  console.log("Updated State: ", resource); // Log the entire state to ensure ResourceType is being updated
-};
+  const [popupMessage, setPopupMessage] = useState(""); // State for popup message
+  const [popupType, setPopupType] = useState(""); // State for popup type (success/error)
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setResource((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+ const closePopup = () => {
+   setPopupMessage(""); // Clear the popup message
+   setPopupType(""); // Clear the popup type
+ };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("resource is ",resource);
-    const response = await sendRequest("post","/resources" , resource);
-    console.log(response);
-    if (response.message === "Resource submitted successfully") {
-      alert("posted");
+    try {
+      const response = await sendRequest("post", "/resources", resource);
+      if (response.message === "Resource submitted successfully") {
+        setPopupMessage("Resource posted successfully!");
+        setPopupType("success");
+setTimeout(closePopup, 1000); 
+      } else {
+        setPopupMessage("Failed to post resource.");
+        setPopupType("error");
+      setTimeout(closePopup, 1000); 
+      }
+    } catch (error) {
+      setPopupMessage("An error occurred while posting the resource.");
+      setPopupType("error");
     }
   };
 
   const imageaddress = "./images/postaresource.jpg";
-
-  // Inline styles for the container and skew effect
 
   const blueSectionStyle = {
     position: "relative",
     flex: "1 1 50%", // Takes 50% of the width
     backgroundColor: "#29306B",
     overflow: "hidden",
-    // display: "flex",
-    // alignItems: "center",
     justifyContent: "center",
     transform: "skewX(-15deg)", // Apply skew to the entire section
     transformOrigin: "top right",
@@ -68,7 +81,7 @@ const handleChange = (e) => {
   return (
     <div className="flex justify-center w-full h-screen">
       <div className="hidden sm:flex items-center" style={blueSectionStyle}>
-        <img className=" hidden sm:flex " src={imageaddress} alt="Resource" />
+        <img className="hidden sm:flex" src={imageaddress} alt="Resource" />
       </div>
       <div className="w-full pt-10 sm:w-1/2">
         <h1
@@ -150,7 +163,7 @@ const handleChange = (e) => {
           {/* Submit Button */}
           <div className="flex justify-center w-full">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="gradient-button text-white font-bold py-2 px-4 rounded"
               type="submit"
             >
               Post
@@ -158,6 +171,9 @@ const handleChange = (e) => {
           </div>
         </form>
       </div>
+
+      {/* Popup Component for messages */}
+      <Popup message={popupMessage} type={popupType} />
     </div>
   );
 }

@@ -1,37 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCheck, FaTrash, FaTimes } from "react-icons/fa";
-import "./Confirmresources.css"; // Create a separate CSS file for additional styles
+import sendRequest from "../../Apicalls/SendData";
 
 export default function ConfirmResources() {
   const [selectedResource, setSelectedResource] = useState(null);
+  const [resources, setResources] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // State to track loading
 
-  const resources = [
-    {
-      title: "JavaScript Basics",
-      type: "Video",
-      postedBy: "John Doe",
-      email: "john.doe@example.com",
-      description: "A video tutorial on JavaScript basics.",
-      category: "YouTube",
-    },
-    {
-      title: "Python Crash Course",
-      type: "Text",
-      postedBy: "Jane Smith",
-      email: "john ",
-      description: "A text tutorial on Python programming.",
-      category: "Blog",
-    },
-    {
-      title: "Python Crash Course",
-      type: "Text",
-      postedBy: "Jane Smith",
-      email: "john ",
-      description: "A text tutorial on Python programming.",
-      category: "Blog",
-    },
-    // Add more resource objects as needed
-  ];
+  // Function to fetch resources
+  const fetchData = async () => {
+    try {
+      setIsLoading(true); // Set loading to true before fetching data
+      const response = await sendRequest("GET", "/Approvalresources/");
+      console.log("API Response:", response);
+      const data = Array.isArray(response) ? response : response.resources;
+      console.log("Processed Data:", data);
+      setResources(data);
+      setIsLoading(false); // Set loading to false after data is fetched
+    } catch (error) {
+      setIsLoading(false); // Set loading to false if there's an error
+      console.log("The error is:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleRowClick = (resource) => {
     setSelectedResource(resource);
@@ -41,120 +35,164 @@ export default function ConfirmResources() {
     setSelectedResource(null);
   };
 
+  const handleApprove = async (e, id) => {
+    e.stopPropagation();
+    try {
+      await sendRequest("PUT", `/resources/${id}`, { status: "approved" });
+      console.log(`Approved resource with id: ${id}`);
+      await fetchData(); // Refresh resources after approval
+    } catch (error) {
+      console.log("Approval error:", error);
+    }
+  };
+
+  const handleReject = async (e, id) => {
+    e.stopPropagation();
+    try {
+      await sendRequest("PUT", `/resources/${id}`, { status: "rejected" });
+      console.log(`Rejected resource with id: ${id}`);
+      await fetchData(); // Refresh resources after rejection
+    } catch (error) {
+      console.log("Rejection error:", error);
+    }
+  };
+
   return (
-    <div className="flex w-screen h-screen p-6 bg-gray-100">
-      <div className="w-full">
-        <h1 className="text-xl sm:text-3xl mb-6 text-center">
+    <div className="min-h-screen p-6 bg-gray-100 flex flex-col items-center">
+      <div className="w-full max-w-6xl">
+        <h1 className="text-4xl mb-6 text-center" style={{ color: "#29306B" }}>
           Manage Resources
         </h1>
-        <div className=" grid sm:flex  justify-between mb-6">
-          <div className="w-full sm:w-1/2 pr-3">
-            <h2 className="text-lg sm:text-xl mb-3 text-center">
+        <div className="grid gap-6 mb-6">
+          <div className="p-4 bg-white rounded-lg shadow">
+            <h2
+              className="text-2xl mb-3 text-center"
+              style={{ color: "#29306B" }}
+            >
+              Approved Courses
+            </h2>
+            <div className="flex justify-center mb-3">
+              <input
+                type="text"
+                placeholder="Search Approved Courses"
+                className="w-full sm:w-3/4 p-2 text-sm sm:text-base border border-gray-300 rounded"
+              />
+            </div>
+            <div className="space-y-4">
+              {isLoading ? (
+                <SkeletonLoader />
+              ) : (
+                resources
+                  .filter((r) => r.status === "approved")
+                  .map((resource) => (
+                    <div
+                      key={resource._id}
+                      className="bg-gray-100 p-4 rounded-lg shadow flex justify-between items-center"
+                      onClick={() => handleRowClick(resource)}
+                    >
+                      <div>
+                        <h3
+                          className="text-xl font-semibold"
+                          style={{ color: "#29306B" }}
+                        >
+                          {resource.ResourceTitle}
+                        </h3>
+                        <p className="text-sm">{resource.ResourceDescription}</p>
+                      </div>
+                      <div className="flex space-x-3">
+                        <FaCheck
+                          className="text-green-500 cursor-pointer"
+                          onClick={(e) => handleApprove(e, resource._id)}
+                        />
+                        <FaTrash
+                          className="text-red-500 cursor-pointer"
+                          onClick={(e) => handleReject(e, resource._id)}
+                        />
+                      </div>
+                    </div>
+                  ))
+              )}
+            </div>
+          </div>
+          <div className="p-4 bg-white rounded-lg shadow">
+            <h2
+              className="text-2xl mb-3 text-center"
+              style={{ color: "#29306B" }}
+            >
               Pending Courses
             </h2>
             <div className="flex justify-center mb-3">
               <input
                 type="text"
                 placeholder="Search Pending Courses"
-                className="w-3/4 p-2  text-sm sm:text-base border rounded"
+                className="w-full sm:w-3/4 p-2 text-sm sm:text-base border border-gray-300 rounded"
               />
             </div>
-            <table className="w-full bg-white shadow rounded-lg">
-              <thead className=" text-white"
-              style={{ backgroundColor: "#29306B" }}
-              >
-                <tr>
-                  <th className="p-1 sm:p-3 text-sm sm:text-base  text-left">
-                    Title
-                  </th>
-                  <th className="p-3 text-sm sm:text-base text-left">Type</th>
-                  <th className="p-3 text-sm sm:text-base text-left">
-                    Posted By
-                  </th>
-                  <th className="p-3 text-sm sm:text-base text-left">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {resources.map((resource, index) => (
-                  <tr
-                    key={index}
-                    className="cursor-pointer"
-                    onClick={() => handleRowClick(resource)}
-                  >
-                    <td className="p-1 sm:p-3 text-xs sm:text-base">
-                      {resource.title}
-                    </td>
-                    <td className="p-1 sm:p-3 text-xs sm:text-base">
-                      {resource.type}
-                    </td>
-                    <td className="p-1 sm:p-3 text-xs sm:text-base">
-                      {resource.postedBy}
-                    </td>
-                    <td className=" p-1 sm:p-3 text-xs  sm:text-base flex space-x-2">
-                      <FaCheck
-                        className="text-green-500 cursor-pointer"
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                      <FaTrash
-                        className="text-red-500 cursor-pointer"
-                        onClick={(e) => e.stopPropagation()}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="w-full sm:w-1/2 pl-3">
-            <h2 className="text-xl mb-3 text-center">Approved Courses</h2>
-            <div className="flex justify-center mb-3">
-              <input
-                type="text"
-                placeholder="Search Approved Courses"
-                className="w-3/4 p-2 border rounded"
-              />
+            <div className="space-y-4">
+              {isLoading ? (
+                <SkeletonLoader />
+              ) : (
+                resources
+                  .filter((r) => r.status === "pending")
+                  .map((resource) => (
+                    <div
+                      key={resource._id}
+                      className="bg-gray-100 p-4 rounded-lg shadow flex justify-between items-center"
+                      onClick={() => handleRowClick(resource)}
+                    >
+                      <div>
+                        <h3
+                          className="text-xl font-semibold"
+                          style={{ color: "#29306B" }}
+                        >
+                          {resource.ResourceTitle}
+                        </h3>
+                        <p className="text-sm">{resource.ResourceDescription}</p>
+                      </div>
+                      <div className="flex space-x-3">
+                        <FaCheck
+                          className="text-green-500 cursor-pointer"
+                          onClick={(e) => handleApprove(e, resource._id)}
+                        />
+                        <FaTrash
+                          className="text-red-500 cursor-pointer"
+                          onClick={(e) => handleReject(e, resource._id)}
+                        />
+                      </div>
+                    </div>
+                  ))
+              )}
             </div>
-            <table className="w-full bg-white shadow rounded-lg">
-              <thead className=" text-white"
-              style={{ backgroundColor: "#29306B" }}>
-                <tr>
-                  <th className="p-3  text-sm sm:text-base text-left">Title</th>
-                  <th className="p-3 text-sm sm:text-base text-left">Type</th>
-                  <th className="p-3 text-sm sm:text-base text-left">
-                    Posted By
-                  </th>
-                  <th className="p-3 text-sm sm:text-base text-left">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>{/* Repeat resource rows for approved courses */}</tbody>
-            </table>
           </div>
         </div>
+
         {selectedResource && (
-          <div className="overlay">
-            <div className="overlay-content">
-              <button className="close-button" onClick={handleCloseOverlay}>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
+              <button
+                className="absolute top-2 right-2 text-gray-600"
+                onClick={handleCloseOverlay}
+              >
                 <FaTimes />
               </button>
-              <h2 className="text-2xl mb-4">{selectedResource.title}</h2>
+              <h2 className="text-2xl mb-4" style={{ color: "#29306B" }}>
+                {selectedResource.ResourceTitle}
+              </h2>
               <p>
-                <strong>Posted By:</strong> {selectedResource.postedBy}
+                <strong>Posted By:</strong> {selectedResource.Postername}
               </p>
               <p>
-                <strong>Email:</strong> {selectedResource.email}
+                <strong>Email:</strong> {selectedResource.Posteremail}
               </p>
               <p>
-                <strong>Description:</strong> {selectedResource.description}
+                <strong>Description:</strong>{" "}
+                {selectedResource.ResourceDescription}
               </p>
               <p>
-                <strong>Type:</strong> {selectedResource.type}
+                <strong>Type:</strong> {selectedResource.ResourceType}
               </p>
               <p>
-                <strong>Category:</strong> {selectedResource.category}
+                <strong>Category:</strong> {selectedResource.ResourceCategory}
               </p>
             </div>
           </div>
@@ -163,3 +201,29 @@ export default function ConfirmResources() {
     </div>
   );
 }
+
+// Skeleton Loader Component
+function SkeletonLoader() {
+  return (
+    <div className="space-y-4">
+      {Array(4)
+        .fill("")
+        .map((_, index) => (
+          <div
+            key={index}
+            className="animate-pulse flex justify-between items-center bg-gray-100 p-4 rounded-lg shadow"
+          >
+            <div className="flex-1 space-y-2">
+              <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+              <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+            </div>
+            <div className="flex space-x-3">
+              <div className="h-4 w-4 bg-gray-300 rounded-full"></div>
+              <div className="h-4 w-4 bg-gray-300 rounded-full"></div>
+            </div>
+          </div>
+        ))}
+    </div>
+  );
+}
+
