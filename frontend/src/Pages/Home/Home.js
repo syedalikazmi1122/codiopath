@@ -32,7 +32,7 @@ export default function Home() {
         className="sm:h-64 p-3  sm:flex items-center justify-around border shadow-lg rounded-md"
         style={{ backgroundColor: "GhostWhite" }}
       >
-        <img src={imagepath3} alt="code" className="" />
+        <img src={imagepath3} alt="code" className="h-56" />
         <span className="space-y-5 justify-center grid">
           <p
             className="text-xl sm:text-2xl font-semibold"
