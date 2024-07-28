@@ -59,7 +59,7 @@ export default function Navbar() {
             style={{ backgroundColor: "#29306B" }}
           >
             <RouterLink className="text-sm" to="/admin-login">
-              Admin Login
+              Login
             </RouterLink>
           </button>
         )}
@@ -102,7 +102,7 @@ export default function Navbar() {
             </button>
           ) : (
             <NavbarEntity
-              name="Admin login"
+              name="Login"
               link="/admin-login"
               onClick={toggleMenu}
             />

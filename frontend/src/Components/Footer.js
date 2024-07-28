@@ -24,28 +24,28 @@ function Footer() {
           <p className="text-sm">Lets connect </p>
           <span className="flex space-x-4">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/syedalikazmi2/"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaFacebook size={20} />
             </a>
             <a
-              href="https://github.com"
+              href="https://github.com/syedalikazmi1122"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaGithub size={20} />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/syed-ali-kazmi-956865279/"
               target="_blank"
               rel="noopener noreferrer"
             >
               <FaLinkedin size={20} />
             </a>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/ali_kazmi.priv?igsh=MTJoOXAzeGxscmZlag=="
               target="_blank"
               rel="noopener noreferrer"
             >
