@@ -55,7 +55,7 @@ export default function Navbar() {
           </button>
         ) : (
           <button
-            className="btn-logout border p-2 mt-2  rounded-full hover:translate-y-1 hover:translate-x-3 duration-100 text-white "
+            className="btn-logout border p-2 mt-2 w-16  rounded-3xl hover:translate-y-1 hover:translate-x-3 duration-100 text-white "
             style={{ backgroundColor: "#29306B" }}
           >
             <RouterLink className="text-sm" to="/admin-login">

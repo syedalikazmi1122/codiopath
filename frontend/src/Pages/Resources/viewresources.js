@@ -106,7 +106,7 @@ export default function ViewResources() {
   }
 
   return (
-    <div className="p-4">
+    <div className="p-4 h-screen">
       {popupMessage && (
         <Popup message={popupMessage} type={popupType} onClose={closePopup} />
       )}
@@ -118,7 +118,7 @@ export default function ViewResources() {
           Resources
         </h1>
         <button className="border p-2 text-white rounded-full bg-blue-900 hover:translate-x-0.5 hover:translate-y-1 duration-300 gradient-button">
-          <RouterLink to="/post-resources">Add Resources</RouterLink>
+          <RouterLink to="/post-resources" className="text-sm sm:text-base md:text-base lg:text-lg">Add Resources</RouterLink>
         </button>
       </div>
 
@@ -129,7 +129,7 @@ export default function ViewResources() {
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="Search here"
-          className="border p-2 m-2 placeholder:text-center rounded w-5/12"
+          className="border p-2 m-2 placeholder:text-center rounded-sm  sm:w-5/12"
         />
         <div className="flex items-center space-x-3">
           <button
@@ -154,7 +154,7 @@ export default function ViewResources() {
                   color: "#1F2937",
                 }}
               >
-                <h1 className="text-4xl font-semibold">
+                <h1 className="text-2xl sm:text-4xl font-semibold">
                   {resource.ResourceTitle || resource.title}
                 </h1>
                 <p className="text-sm">

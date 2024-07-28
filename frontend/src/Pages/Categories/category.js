@@ -25,7 +25,7 @@ export default function Category() {
   }, []);
 
   return (
-    <div className="p-5">
+    <div className="p-5 h-screen">
       <h1 className="text-3xl font-semibold mb-6" style={{ color: "#29306B" }}>
         Categories
       </h1>

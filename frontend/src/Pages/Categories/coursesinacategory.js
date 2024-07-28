@@ -33,7 +33,7 @@ const ResourcesByCategory = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-6 h-screen">
       <h1 className="text-2xl font-bold mb-4" style={{ color: "#29306B" }}>
         Resources in "{category}" Category
       </h1>
@@ -54,7 +54,11 @@ const ResourcesByCategory = () => {
                 >
                   {resource.title}
                 </h2>
-                <p className="text-gray-600 mt-2">{resource.description}</p>
+                <p className="text-gray-600 mt-2">This resource is a <span className="font-semibold">
+                  {resource.type}
+                  </span> 
+                  </p>
+                  
                 <div className="mt-4">
                   <RouterLink
                     to={`/see-each-resources/${resource.id}`}
