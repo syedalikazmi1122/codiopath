@@ -46,7 +46,19 @@ export default function Vieweachresource() {
     }));
   };
 
+  const validateEmail = (email) => {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  };
+
   const submitReview = async () => {
+    if (!validateEmail(review.reviewerEmail)) {
+      setPopupMessage("Invalid email format.");
+      setPopupType("error");
+      setTimeout(closePopup, 2000); // Automatically close the popup after 2 seconds
+      return;
+    }
+
     try {
       console.log("Submitting review:", review);
       const response = await sendRequest(
@@ -191,71 +203,4 @@ export default function Vieweachresource() {
       </div>
       <div className="w-full mt-4">
         <h2
-          className="text-xl  sm:text-2xl font-semibold"
-          style={{ color: "#BE5D0E" }}
-        >
-          Reviews
-        </h2>
-        <div className="border "></div>
-        <div className="grid  mt-4">
-          {reviews.map((review, index) => (
-            <div className="bg-white  rounded-md p-4 mt-2 w-full" key={index}>
-              <h3 className="text-gray-800 text-xs sm:text-sm font-medium">
-                {review.reviewerEmail}
-              </h3>
-              <p
-                className="text-gray-600 text-sm sm:text-lg "
-                style={{ fontStyle: "italic" }}
-              >
-                {review.review}
-              </p>
-              <StarRating rating={review.rating} />
-              {/* <div className="border mt-1"></div> */}
-            </div>
-          ))}
-        </div>
-        <div className="border mt-3"></div>
-        <div className="grid justify-center space-y-2 mt-4">
-          <h2
-            className="text-xl sm:text-2xl font-semibold"
-            style={{ color: "#BE5D0E" }}
-          >
-            Post a Review
-          </h2>
-          <input
-            type="email"
-            onChange={handleReviewChange}
-            name="reviewerEmail"
-            placeholder="Enter your email"
-            className="border p-2 h-10 rounded-md  w-full"
-            value={review.reviewerEmail}
-          />
-          <textarea
-            placeholder="Enter your review"
-            onChange={handleReviewChange}
-            name="reviewText"
-            className="border p-2  w-full rounded-md"
-            value={review.reviewText}
-          />
-          {/* <p className="text-gray-300 text-sm">Rate the resource</p> */}
-          <div className="ml-2">
-          <SettingStarRating
-            rating={review.rating}
-            onRatingChange={handleRatingChange}
-            />
-            </div>
-          <button
-            className="hover:bg-blue-700 text-white font-bold h-9 w-20 py-1 px-4 rounded gradient-button ml-5  sm:ml-7 mt-4"
-            type="submit"
-            onClick={submitReview} // Added onClick to handle review submission
-          >
-            Post
-          </button>
-        </div>
-      </div>
-
-      {/* Popup Component for messages */}
-      {popupMessage && <Popup message={popupMessage} type={popupType} />}
-    </div>
-  );
-}
+          classN

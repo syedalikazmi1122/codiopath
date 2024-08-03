@@ -22,23 +22,74 @@ export default function Postaresource() {
       [name]: value,
     }));
   };
- const closePopup = () => {
-   setPopupMessage(""); // Clear the popup message
-   setPopupType(""); // Clear the popup type
- };
+
+  const closePopup = () => {
+    setPopupMessage(""); // Clear the popup message
+    setPopupType(""); // Clear the popup type
+  };
+
+  const validateInput = () => {
+    const titleCategoryPattern = /^[a-zA-Z0-9\s!@#$%^&*()_+=-]*$/;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const namePattern = /^[a-zA-Z\s]+$/;
+    const urlPattern =
+      /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+
+    if (!titleCategoryPattern.test(resource.ResourceTitle)) {
+      setPopupMessage(
+        "Invalid title. Only alphanumeric characters and special characters are allowed."
+      );
+      setPopupType("error");
+      return false;
+    }
+
+    if (!titleCategoryPattern.test(resource.ResourceCategory)) {
+      setPopupMessage(
+        "Invalid category. Only alphanumeric characters and special characters are allowed."
+      );
+      setPopupType("error");
+      return false;
+    }
+
+    if (!emailPattern.test(resource.Posteremail)) {
+      setPopupMessage("Invalid email format.");
+      setPopupType("error");
+      return false;
+    }
+
+    if (!namePattern.test(resource.Postername)) {
+      setPopupMessage("Invalid name. Only letters are allowed.");
+      setPopupType("error");
+      return false;
+    }
+
+    if (!urlPattern.test(resource.ResourceLink)) {
+      setPopupMessage("Invalid URL format.");
+      setPopupType("error");
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateInput()) {
+      setTimeout(closePopup, 2000);
+      return;
+    }
+
     try {
       const response = await sendRequest("post", "/resources", resource);
       if (response.message === "Resource submitted successfully") {
         setPopupMessage("Resource posted successfully!");
         setPopupType("success");
-setTimeout(closePopup, 1000); 
+        setTimeout(closePopup, 1000);
       } else {
         setPopupMessage("Failed to post resource.");
         setPopupType("error");
-      setTimeout(closePopup, 1000); 
+        setTimeout(closePopup, 1000);
       }
     } catch (error) {
       setPopupMessage("An error occurred while posting the resource.");
@@ -165,7 +216,6 @@ setTimeout(closePopup, 1000);
             <button
               className="gradient-button text-white font-bold py-2 px-4 rounded"
               type="submit"
-              
             >
               Post
             </button>

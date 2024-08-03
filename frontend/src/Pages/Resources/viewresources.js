@@ -52,6 +52,7 @@ export default function ViewResources() {
       const searchResults = Array.isArray(response)
         ? response
         : response.resources;
+        console.log(searchResults);
       setResources(searchResults);
       setIsLoading(false); // Set loading to false after data is fetched
       if (searchResults.length === 0) {
@@ -157,7 +158,7 @@ export default function ViewResources() {
           <SkeletonLoader />
         ) : (
           resources.map((resource, index) => (
-            <RouterLink to={`/see-each-resources/${resource._id}`} key={index}>
+            <RouterLink to={`/see-each-resources/${resource._id || resource.id}`} key={index}>
               <div
                 className="border hover:translate-y-0.5 hover:translate-x-0.5 duration-200 rounded-md p-4"
                 style={{
